@@ -3,7 +3,7 @@ import type {
   ProviderType,
   CreateProviderTypeRequest,
   UpdateProviderTypeRequest,
-} from '@mcigroupfrance/testazure-shared';
+} from '@mcigroupfrance/shared';
 
 export const providerTypesApi = {
   /**

@@ -21,8 +21,8 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
-import { loginSchema } from '@mcigroupfrance/testazure-shared';
-import type { LoginRequest } from '@mcigroupfrance/testazure-shared';
+import { loginSchema } from '@mcigroupfrance/shared';
+import type { LoginRequest } from '@mcigroupfrance/shared';
 
 export function LoginForm({
   className,

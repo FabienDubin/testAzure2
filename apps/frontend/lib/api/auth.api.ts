@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import type { LoginRequest, LoginResponse } from '@mcigroupfrance/testazure-shared';
+import type { LoginRequest, LoginResponse } from '@mcigroupfrance/shared';
 
 export const authApi = {
   /**

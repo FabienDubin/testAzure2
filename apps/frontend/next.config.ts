@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Configuration pour Azure Static Web Apps (déploiement hybride)
+  output: 'standalone',
 };
 
 export default nextConfig;
