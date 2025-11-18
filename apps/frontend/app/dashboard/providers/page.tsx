@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { providersApi, providerTypesApi } from '@/lib/api';
-import type { Provider, ProviderType } from '@mcigroupfrance/testazure-shared';
-import { Button } from '@/components/ui/button';
+import { useEffect, useState } from "react";
+import { providersApi, providerTypesApi } from "@/lib/api";
+import type { Provider, ProviderType } from "@mcigroupfrance/shared";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -18,26 +18,26 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Plus, Edit, Trash2, Eye, Search, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/select";
+import { Plus, Edit, Trash2, Eye, Search, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 
 export default function ProvidersPage() {
   const router = useRouter();
   const [providers, setProviders] = useState<Provider[]>([]);
   const [providerTypes, setProviderTypes] = useState<ProviderType[]>([]);
-  const [selectedTypeId, setSelectedTypeId] = useState<string>('all');
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [debouncedSearch, setDebouncedSearch] = useState<string>('');
+  const [selectedTypeId, setSelectedTypeId] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [debouncedSearch, setDebouncedSearch] = useState<string>("");
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -58,7 +58,7 @@ export default function ProvidersPage() {
         const data = await providerTypesApi.getAll();
         setProviderTypes(data);
       } catch (err) {
-        console.error('Failed to load provider types:', err);
+        console.error("Failed to load provider types:", err);
       }
     };
 
@@ -79,7 +79,7 @@ export default function ProvidersPage() {
 
         // Construire les filtres
         const filters: any = {};
-        if (selectedTypeId !== 'all') {
+        if (selectedTypeId !== "all") {
           filters.providerTypeId = Number(selectedTypeId);
         }
         if (debouncedSearch && debouncedSearch.length > 0) {
@@ -91,8 +91,8 @@ export default function ProvidersPage() {
         );
         setProviders(response.data);
       } catch (err) {
-        console.error('Failed to load providers:', err);
-        setError('Erreur lors du chargement des fournisseurs');
+        console.error("Failed to load providers:", err);
+        setError("Erreur lors du chargement des fournisseurs");
       } finally {
         setIsInitialLoading(false);
         setIsRefreshing(false);
@@ -104,7 +104,7 @@ export default function ProvidersPage() {
 
   // Supprimer un fournisseur
   const handleDelete = async (id: number) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce fournisseur ?')) {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer ce fournisseur ?")) {
       return;
     }
 
@@ -112,22 +112,22 @@ export default function ProvidersPage() {
       await providersApi.delete(id);
       setProviders(providers.filter((provider) => provider.id !== id));
     } catch (err) {
-      console.error('Failed to delete provider:', err);
-      alert('Erreur lors de la suppression');
+      console.error("Failed to delete provider:", err);
+      alert("Erreur lors de la suppression");
     }
   };
 
   // Trouver le type d'un fournisseur
   const getProviderTypeName = (providerTypeId: number) => {
     const type = providerTypes.find((t) => t.id === providerTypeId);
-    return type?.label || 'Inconnu';
+    return type?.label || "Inconnu";
   };
 
   // Réinitialiser tous les filtres
   const handleResetFilters = () => {
-    setSelectedTypeId('all');
-    setSearchTerm('');
-    setDebouncedSearch('');
+    setSelectedTypeId("all");
+    setSearchTerm("");
+    setDebouncedSearch("");
   };
 
   // Afficher un loader uniquement pour la première charge
@@ -149,7 +149,7 @@ export default function ProvidersPage() {
             Gérez vos fournisseurs et leurs informations
           </p>
         </div>
-        <Button onClick={() => router.push('/dashboard/providers/new')}>
+        <Button onClick={() => router.push("/dashboard/providers/new")}>
           <Plus className="mr-2 h-4 w-4" />
           Nouveau fournisseur
         </Button>
@@ -164,7 +164,7 @@ export default function ProvidersPage() {
               variant="outline"
               size="sm"
               onClick={handleResetFilters}
-              disabled={selectedTypeId === 'all' && !searchTerm}
+              disabled={selectedTypeId === "all" && !searchTerm}
             >
               <X className="mr-2 h-4 w-4" />
               Réinitialiser
@@ -238,7 +238,7 @@ export default function ProvidersPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <Table className={isRefreshing ? 'opacity-50' : ''}>
+          <Table className={isRefreshing ? "opacity-50" : ""}>
             <TableHeader>
               <TableRow>
                 <TableHead>Nom</TableHead>
@@ -272,10 +272,10 @@ export default function ProvidersPage() {
                     <TableCell>
                       <Badge
                         variant={
-                          provider.status === 'active' ? 'default' : 'outline'
+                          provider.status === "active" ? "default" : "outline"
                         }
                       >
-                        {provider.status === 'active' ? 'Actif' : 'Inactif'}
+                        {provider.status === "active" ? "Actif" : "Inactif"}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">

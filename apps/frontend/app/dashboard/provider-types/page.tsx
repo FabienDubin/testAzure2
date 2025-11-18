@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { providerTypesApi } from '@/lib/api';
-import type { ProviderType } from '@mcigroupfrance/testazure-shared';
-import { Button } from '@/components/ui/button';
+import { useEffect, useState } from "react";
+import { providerTypesApi } from "@/lib/api";
+import type { ProviderType } from "@mcigroupfrance/shared";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -18,9 +18,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Plus, Edit, Trash2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+} from "@/components/ui/table";
+import { Plus, Edit, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ProviderTypesPage() {
   const router = useRouter();
@@ -36,8 +36,8 @@ export default function ProviderTypesPage() {
         const data = await providerTypesApi.getAll();
         setProviderTypes(data);
       } catch (err) {
-        console.error('Failed to load provider types:', err);
-        setError('Erreur lors du chargement des types');
+        console.error("Failed to load provider types:", err);
+        setError("Erreur lors du chargement des types");
       } finally {
         setIsLoading(false);
       }
@@ -48,7 +48,7 @@ export default function ProviderTypesPage() {
 
   // Supprimer un type
   const handleDelete = async (id: number) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce type ?')) {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer ce type ?")) {
       return;
     }
 
@@ -57,8 +57,8 @@ export default function ProviderTypesPage() {
       // Recharger la liste
       setProviderTypes(providerTypes.filter((type) => type.id !== id));
     } catch (err) {
-      console.error('Failed to delete provider type:', err);
-      alert('Erreur lors de la suppression');
+      console.error("Failed to delete provider type:", err);
+      alert("Erreur lors de la suppression");
     }
   };
 
@@ -82,7 +82,7 @@ export default function ProviderTypesPage() {
             Gérez les différents types de fournisseurs
           </p>
         </div>
-        <Button onClick={() => router.push('/dashboard/provider-types/new')}>
+        <Button onClick={() => router.push("/dashboard/provider-types/new")}>
           <Plus className="mr-2 h-4 w-4" />
           Nouveau type
         </Button>
@@ -129,11 +129,13 @@ export default function ProviderTypesPage() {
                     <TableCell>{type.label}</TableCell>
                     <TableCell>
                       <code className="text-xs bg-muted px-2 py-1 rounded">
-                        {Object.keys(
-                          typeof type.jsonSchema === 'string'
-                            ? JSON.parse(type.jsonSchema)
-                            : type.jsonSchema
-                        ).length}{' '}
+                        {
+                          Object.keys(
+                            typeof type.jsonSchema === "string"
+                              ? JSON.parse(type.jsonSchema)
+                              : type.jsonSchema
+                          ).length
+                        }{" "}
                         champs
                       </code>
                     </TableCell>

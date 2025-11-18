@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { providerTypesApi } from '@/lib/api';
-import type { ProviderType } from '@mcigroupfrance/testazure-shared';
-import { ProviderTypeForm } from '@/components/provider-types/provider-type-form';
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { providerTypesApi } from "@/lib/api";
+import type { ProviderType } from "@mcigroupfrance/shared";
+import { ProviderTypeForm } from "@/components/provider-types/provider-type-form";
 
 export default function EditProviderTypePage() {
   const params = useParams();
@@ -20,8 +20,8 @@ export default function EditProviderTypePage() {
         const data = await providerTypesApi.getById(id);
         setProviderType(data);
       } catch (err) {
-        console.error('Failed to load provider type:', err);
-        setError('Erreur lors du chargement du type');
+        console.error("Failed to load provider type:", err);
+        setError("Erreur lors du chargement du type");
       } finally {
         setIsLoading(false);
       }
@@ -44,7 +44,7 @@ export default function EditProviderTypePage() {
     return (
       <div className="space-y-6">
         <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {error || 'Type non trouvé'}
+          {error || "Type non trouvé"}
         </div>
       </div>
     );

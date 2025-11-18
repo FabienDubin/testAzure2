@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { providersApi, providerTypesApi } from '@/lib/api';
-import type { Provider, ProviderType } from '@mcigroupfrance/testazure-shared';
-import { Button } from '@/components/ui/button';
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { providersApi, providerTypesApi } from "@/lib/api";
+import type { Provider, ProviderType } from "@mcigroupfrance/shared";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Edit, Trash2 } from "lucide-react";
 
 export default function ProviderDetailPage() {
   const params = useParams();
@@ -37,8 +37,8 @@ export default function ProviderDetailPage() {
         );
         setProviderType(typeData);
       } catch (err) {
-        console.error('Failed to load provider:', err);
-        setError('Erreur lors du chargement du fournisseur');
+        console.error("Failed to load provider:", err);
+        setError("Erreur lors du chargement du fournisseur");
       } finally {
         setIsLoading(false);
       }
@@ -50,16 +50,16 @@ export default function ProviderDetailPage() {
   }, [id]);
 
   const handleDelete = async () => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce fournisseur ?')) {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer ce fournisseur ?")) {
       return;
     }
 
     try {
       await providersApi.delete(id);
-      router.push('/dashboard/providers');
+      router.push("/dashboard/providers");
     } catch (err) {
-      console.error('Failed to delete provider:', err);
-      alert('Erreur lors de la suppression');
+      console.error("Failed to delete provider:", err);
+      alert("Erreur lors de la suppression");
     }
   };
 
@@ -75,7 +75,7 @@ export default function ProviderDetailPage() {
     return (
       <div className="space-y-6">
         <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {error || 'Fournisseur non trouvé'}
+          {error || "Fournisseur non trouvé"}
         </div>
       </div>
     );
@@ -89,7 +89,7 @@ export default function ProviderDetailPage() {
           <Button
             variant="outline"
             size="icon"
-            onClick={() => router.push('/dashboard/providers')}
+            onClick={() => router.push("/dashboard/providers")}
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -166,9 +166,9 @@ export default function ProviderDetailPage() {
                 Statut
               </div>
               <Badge
-                variant={provider.status === 'active' ? 'default' : 'outline'}
+                variant={provider.status === "active" ? "default" : "outline"}
               >
-                {provider.status === 'active' ? 'Actif' : 'Inactif'}
+                {provider.status === "active" ? "Actif" : "Inactif"}
               </Badge>
             </div>
           </div>
@@ -192,12 +192,12 @@ export default function ProviderDetailPage() {
                 </div>
                 <div className="text-base">
                   {Array.isArray(value)
-                    ? value.join(', ')
-                    : typeof value === 'boolean'
+                    ? value.join(", ")
+                    : typeof value === "boolean"
                     ? value
-                      ? 'Oui'
-                      : 'Non'
-                    : value?.toString() || '-'}
+                      ? "Oui"
+                      : "Non"
+                    : value?.toString() || "-"}
                 </div>
               </div>
             ))}
@@ -213,15 +213,15 @@ export default function ProviderDetailPage() {
         <CardContent className="space-y-2">
           <div>
             <span className="text-sm font-medium text-muted-foreground">
-              Créé le :{' '}
+              Créé le :{" "}
             </span>
-            {new Date(provider.createdAt).toLocaleDateString('fr-FR')}
+            {new Date(provider.createdAt).toLocaleDateString("fr-FR")}
           </div>
           <div>
             <span className="text-sm font-medium text-muted-foreground">
-              Modifié le :{' '}
+              Modifié le :{" "}
             </span>
-            {new Date(provider.updatedAt).toLocaleDateString('fr-FR')}
+            {new Date(provider.updatedAt).toLocaleDateString("fr-FR")}
           </div>
         </CardContent>
       </Card>

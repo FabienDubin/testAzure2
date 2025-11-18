@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { providersApi } from '@/lib/api';
-import type { Provider } from '@mcigroupfrance/testazure-shared';
-import { ProviderForm } from '@/components/providers/provider-form';
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { providersApi } from "@/lib/api";
+import type { Provider } from "@mcigroupfrance/shared";
+import { ProviderForm } from "@/components/providers/provider-form";
 
 export default function EditProviderPage() {
   const params = useParams();
@@ -20,8 +20,8 @@ export default function EditProviderPage() {
         const data = await providersApi.getById(id);
         setProvider(data);
       } catch (err) {
-        console.error('Failed to load provider:', err);
-        setError('Erreur lors du chargement du fournisseur');
+        console.error("Failed to load provider:", err);
+        setError("Erreur lors du chargement du fournisseur");
       } finally {
         setIsLoading(false);
       }
@@ -44,7 +44,7 @@ export default function EditProviderPage() {
     return (
       <div className="space-y-6">
         <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {error || 'Fournisseur non trouvé'}
+          {error || "Fournisseur non trouvé"}
         </div>
       </div>
     );
