@@ -1,4 +1,4 @@
-// Prisma schema pour le POC Azure
+// Prisma schema for PostgreSQL (Azure PostgreSQL compatible)
 
 generator client {
   provider = "prisma-client-js"
@@ -9,11 +9,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User model pour l'authentification
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
-  password  String   // Hash bcrypt
+  password  String   // Hashed with bcrypt
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -21,12 +20,11 @@ model User {
   @@map("users")
 }
 
-// ProviderType model
 model ProviderType {
   id         Int        @id @default(autoincrement())
-  name       String     @unique
-  label      String
-  jsonSchema Json       // Schema definition for dynamic specificities
+  name       String     @unique // "hotel", "audiovisuel", "traiteur", "lieu"
+  label      String     // "Hôtel", "Prestataire audiovisuel", etc.
+  jsonSchema String     // JSON string containing the schema definition
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   providers  Provider[]
@@ -34,17 +32,16 @@ model ProviderType {
   @@map("provider_types")
 }
 
-// Provider model
 model Provider {
   id             Int          @id @default(autoincrement())
   name           String
-  email          String
+  email          String       @unique
   phone          String?
   address        String?
   providerTypeId Int
-  providerType   ProviderType @relation(fields: [providerTypeId], references: [id], onDelete: Cascade)
-  specificities  Json         @default("{}")
-  status         String       @default("active") // 'active' | 'inactive'
+  providerType   ProviderType @relation(fields: [providerTypeId], references: [id])
+  specificities  String       // JSON string containing dynamic fields
+  status         String       @default("active") // "active" or "inactive"
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
