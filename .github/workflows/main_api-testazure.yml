@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: "22.x"
 
-      - name: Build and publish shared package to Azure Artifacts !
+      - name: Build and publish shared package to Azure Artifacts
         working-directory: packages/shared
         run: |
           npm ci
