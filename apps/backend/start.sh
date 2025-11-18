@@ -1,10 +1,11 @@
 #!/bin/sh
-# Startup script for Azure Web App
-# Generate Prisma Client then start the server
+echo "=== Starting deployment script ==="
+echo "Generating Prisma Client..."
 
-echo "=====Generating Prisma Client...====="
-node /node_modules/.bin/prisma generate
+# Use node directly to avoid permission issues with npx
+node ./node_modules/prisma/build/index.js generate --schema=./prisma/schema.prisma
 
-echo "!!!!!!!!Prisma Client generated successfully!!!!!!!!!"
-echo "Starting server..."
+echo "Prisma Client generated successfully!"
+echo "Starting Fastify server..."
 node dist/server.js
+
