@@ -53,6 +53,15 @@ jobs:
           # Try to publish, ignore error if version already exists
           npm publish || echo "⚠️ Package already published or publish failed, continuing..."
 
+      - name: Configure Azure Artifacts authentication for backend
+        working-directory: apps/backend
+        run: |
+          echo "@mcigroupfrance:registry=https://pkgs.dev.azure.com/mcigroupfrance/testazure/_packaging/testazure-package/npm/registry/" > .npmrc
+          echo "always-auth=true" >> .npmrc
+          echo "//pkgs.dev.azure.com/mcigroupfrance/testazure/_packaging/testazure-package/npm/registry/:username=mcigroupfrance" >> .npmrc
+          echo "//pkgs.dev.azure.com/mcigroupfrance/testazure/_packaging/testazure-package/npm/registry/:_password=${{ secrets.AZURE_ARTIFACTS_TOKEN }}" >> .npmrc
+          echo "//pkgs.dev.azure.com/mcigroupfrance/testazure/_packaging/testazure-package/npm/registry/:email=ci@github.com" >> .npmrc
+
       - name: Install backend dependencies
         working-directory: apps/backend
         run: npm ci
