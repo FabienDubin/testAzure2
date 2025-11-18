@@ -118,7 +118,18 @@ packages/shared/
 3. Name : `GitHub Actions - Artifacts`
 4. Scopes : **Packaging (Read & Write)**
 5. Copie le token (il sera affiché UNE SEULE FOIS)
-6. **Encode en base64** : `echo -n "YOUR_PAT" | base64`
+6. **Encode en base64** :
+
+**Méthode 1 - Linux/macOS (shell)** :
+```bash
+echo -n "YOUR_PAT" | base64
+```
+
+**Méthode 2 - Cross-platform (Node.js)** :
+```bash
+node -e "require('readline') .createInterface({input:process.stdin,output:process.stdout,historySize:0}) .question('PAT> ',p => { b64=Buffer.from(p.trim()).toString('base64');console.log(b64);process.exit(); })"
+```
+Cette commande demande le PAT de manière sécurisée (pas d'historique shell) et affiche le résultat encodé en base64.
 
 #### Configurer le fichier .npmrc
 
