@@ -943,7 +943,10 @@ jobs:
    - Double configuration registry (avec `/registry/` et sans)
 
 3. **Variables d'environnement**
-   - `NEXT_PUBLIC_API_URL` : URL de l'API backend (ex: `https://api-testazure.azurewebsites.net`)
+   - `NEXT_PUBLIC_API_URL` : URL **COMPLÈTE** de l'API backend
+   - **⚠️ CRITIQUE** : Doit inclure `https://` au début !
+   - **Correct** : `https://api-testazure.azurewebsites.net`
+   - **Incorrect** : `api-testazure.azurewebsites.net` (Axios le traitera comme un chemin relatif → erreur 404)
    - Passée en `env:` dans le step "Build And Deploy"
    - Accessible dans le code Next.js via `process.env.NEXT_PUBLIC_API_URL`
 
@@ -987,8 +990,12 @@ jobs:
 NEXT_PUBLIC_API_URL = https://api-testazure.azurewebsites.net
 ```
 
+**⚠️ CRITIQUE** :
+- L'URL doit **OBLIGATOIREMENT** commencer par `https://`
+- Sans le protocole, Axios traitera l'URL comme un chemin relatif et les requêtes échoueront en 404
+
 **⚠️ IMPORTANT** : Les variables `NEXT_PUBLIC_*` doivent être configurées :
-1. Dans le workflow GitHub Actions (pour le build)
+1. Dans le workflow GitHub Actions (pour le build) → Secret `NEXT_PUBLIC_API_URL`
 2. Dans Azure Static Web App Configuration (pour les previews et le runtime)
 
 #### Récupérer le token pour GitHub (si non auto-configuré)
@@ -1298,14 +1305,26 @@ Type error: Cannot find module '@mcigroupfrance/shared'
 2. Vérifier que le token Azure Artifacts est valide
 3. Vérifier le nom du package (pas `testazure-shared` mais `shared`)
 
-#### NEXT_PUBLIC_API_URL non définie
+#### NEXT_PUBLIC_API_URL non définie ou mal formée
 
-**Symptôme** : Axios fait des appels à `undefined/api/...`
+**Symptôme 1** : Axios fait des appels à `undefined/api/...`
+
+**Cause** : Variable `NEXT_PUBLIC_API_URL` non définie
+
+**Symptôme 2** : Erreur 404 avec URL bizarre comme `https://frontend.azurestaticapps.net/api-backend.azurewebsites.net/api/...`
+
+**Cause** : Variable `NEXT_PUBLIC_API_URL` sans le protocole `https://`
 
 **Solutions** :
-1. Ajouter la variable dans le workflow (env: du step Deploy)
-2. Ajouter la variable dans Azure Static Web App Configuration
+1. Ajouter la variable dans le workflow (env: du step Deploy) avec `https://` au début
+2. Ajouter la variable dans Azure Static Web App Configuration avec `https://` au début
 3. Vérifier qu'elle commence bien par `NEXT_PUBLIC_`
+4. **CRITIQUE** : Vérifier que l'URL est complète : `https://api-backend.azurewebsites.net` (pas `api-backend.azurewebsites.net`)
+
+**Exemple correct dans GitHub Secrets** :
+```
+NEXT_PUBLIC_API_URL = https://api-testazure-hwbcdsesc5guc3a9.francecentral-01.azurewebsites.net
+```
 
 #### Build réussit mais app ne démarre pas
 
@@ -1467,7 +1486,8 @@ node_modules/.prisma
 - [ ] App location : `/apps/frontend/`
 - [ ] Output location : (vide)
 - [ ] Ajouter le secret `AZURE_STATIC_WEB_APPS_API_TOKEN_*` dans GitHub (normalement auto)
-- [ ] Configurer Application Settings : `NEXT_PUBLIC_API_URL`
+- [ ] Ajouter le secret `NEXT_PUBLIC_API_URL` dans GitHub (**AVEC** `https://` au début !)
+- [ ] Configurer Application Settings : `NEXT_PUBLIC_API_URL` (**AVEC** `https://` au début !)
 
 ### À chaque nouveau projet
 
