@@ -1,0 +1,43 @@
+{
+  "name": "@mcigroupfrance/shared",
+  "version": "1.0.0",
+  "description": "Schémas Zod et types partagés pour le POC Azure",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "zod",
+    "typescript",
+    "validation",
+    "schema"
+  ],
+  "author": "Fab",
+  "license": "MIT",
+  "devDependencies": {
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "publishConfig": {
+    "name": "@mcigroupfrance/shared",
+    "registry": "https://pkgs.dev.azure.com/mcigroupfrance/testazure/_packaging/testazure-package/npm/registry/"
+  }
+}
