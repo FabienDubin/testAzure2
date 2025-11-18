@@ -23,7 +23,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: "22.x"
+          node-version: "20.9"
 
       - name: Configure Azure Artifacts authentication
         run: |
